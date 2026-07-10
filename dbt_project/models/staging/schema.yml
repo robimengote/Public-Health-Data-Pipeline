@@ -1,0 +1,74 @@
+version: 2
+
+models:
+  - name: stg_nndss_weekly
+    description: "Staged NNDSS weekly disease case data from CDC SODA API. Deduplicated and typed."
+    columns:
+      - name: year
+        description: "MMWR epidemiological year"
+        data_tests:
+          - not_null
+
+      - name: week
+        description: "MMWR epidemiological week (1-53)"
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,
+                       21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,
+                       38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53]
+
+      - name: region_name
+        description: "Regions where the report came from"
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['EAST NORTH CENTRAL', 'EAST SOUTH CENTRAL', 'MIDDLE ATLANTIC',
+                       'MOUNTAIN', 'NEW ENGLAND', 'PACIFIC', 'SOUTH ATLANTIC',
+                       'WEST NORTH CENTRAL', 'WEST SOUTH CENTRAL']
+
+      - name: disease_name
+        description: "Name of the notifiable disease or condition"
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('disease_list')
+              field: disease_name
+              config:
+                severity: warn
+
+      - name: current_week_cases
+        description: "Case count for the current reporting week"
+
+      - name: previous_52_weeks_max
+        description: "Maximum weekly case count over the previous 52 weeks"
+
+      - name: cumulative_ytd_cases
+        description: "Year to date cumulative case count"
+
+      - name: previous_year_cumulative
+        description: "Previous year cases"
+
+      - name: current_week_cases_flag
+        description: "Data quality flag for current week cases count"
+        data_tests:
+          - accepted_values:
+              values: ['U', '--', 'N', 'NN', 'NP', 'NC']
+
+      - name: previous_52_weeks_max_flag
+        description: "Data quality flag for year to date cases"
+        data_tests:
+          - accepted_values:
+              values: ['U', '--', 'N', 'NN', 'NP', 'NC']
+
+      - name: cumulative_ytd_cases_flag
+        description: "Data quality flag for previous week cases count"
+        data_tests:
+          - accepted_values:
+              values: ['U', '--', 'N', 'NN', 'NP', 'NC']
+
+      - name: previous_year_cumulative_flag
+        description: "Data quality flag for previous year cumulative cases count"
+        data_tests:
+          - accepted_values:
+              values: ['U', '--', 'N', 'NN', 'NP', 'NC']

@@ -1,0 +1,91 @@
+version: 2
+
+models:
+  - name: fact_disease_cases
+    description: "Fact table of weekly disease case counts joined to location, disease, and date dimensions."
+    columns:
+      - name: fact_id
+        description: "Surrogate key generated from state_name + disease_name + year + week"
+        data_tests:
+          - not_null
+          - unique
+
+      - name: location_id
+        description: "FK to dim_location"
+        data_tests:
+          - not_null:
+              config:
+                severity: warn
+          - relationships:
+              to: ref('dim_location')
+              field: location_id
+              config:
+                severity: warn
+
+      - name: disease_id
+        description: "FK to dim_diseases"
+        data_tests:
+          - not_null:
+              config:
+                severity: warn
+          - relationships:
+              to: ref('dim_diseases')
+              field: disease_id
+              config:
+                severity: warn
+
+      - name: date_id
+        description: "FK to dim_date"
+        data_tests:
+          - not_null:
+              config:
+                severity: warn
+          - relationships:
+              to: ref('dim_date')
+              field: date_id
+              config:
+                severity: warn
+
+      - name: current_week_cases
+        description: "Case count for the current reporting week"
+
+      - name: previous_52_weeks_max
+        description: "Year to date case count"
+
+      - name: cumulative_ytd_cases
+        description: "Previous week case count"
+
+      - name: previous_year_cumulative
+        description: "Previous year cumulative case count"
+
+      - name: current_week_cases_flag
+        description: "Data quality flag for current week cases"
+        data_tests:
+          - accepted_values:
+              values: ['U', '--', 'N', 'NN', 'NP', 'NC']
+              config:
+                severity: warn
+
+      - name: previous_52_weeks_max_flag
+        description: "Data quality flag for year to date cases"
+        data_tests:
+          - accepted_values:
+              values: ['U', '--', 'N', 'NN', 'NP', 'NC']
+              config:
+                severity: warn
+
+      - name: cumulative_ytd_cases_flag
+        description: "Data quality flag for previous week cases"
+        data_tests:
+          - accepted_values:
+              values: ['U', '--', 'N', 'NN', 'NP', 'NC']
+              config:
+                severity: warn
+
+      - name: previous_year_cumulative_flag
+        description: "Data quality flag for previous year cumulative cases"
+        data_tests:
+          - accepted_values:
+              values: ['U', '--', 'N', 'NN', 'NP', 'NC']
+              config:
+                severity: warn

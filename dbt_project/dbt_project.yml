@@ -1,0 +1,30 @@
+name: 'cdc_health_pipeline'
+version: '1.0.0'
+config-version: 2
+
+profile: 'dbt_project'
+
+model-paths: ["models"]
+snapshot-paths: ["snapshots"]
+test-paths: ["tests"]
+
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+models:
+  cdc_health_pipeline:
+    staging:
+      +materialized: view
+    dimensions:
+      +schema: cdc_dims
+      +materialized: table
+    facts:
+      +schema: cdc_facts
+      +materialized: table
+    marts:
+      +schema: cdc_marts
+      +materialized: table
+
+seeds:
+  cdc_health_pipeline:
+    +schema: cdc_staging

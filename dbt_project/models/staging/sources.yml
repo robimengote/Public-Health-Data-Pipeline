@@ -1,0 +1,30 @@
+version: 2
+
+sources:
+  - name: raw
+    database: pos-pipeline-airflow
+    schema: cdc_raw
+    tables:
+      - name: nndss_weekly
+        description: "Raw weekly NNDSS disease surveillance data from CDC API"
+        columns:
+          - name: states
+            description: "Reporting jurisdiction"
+          - name: year
+            description: "Reporting year"
+          - name: week
+            description: "MMWR week number"
+          - name: label
+            description: "Disease name"
+          - name: m1
+            description: "Current week case count"
+          - name: m2
+            description: "Cumulative year-to-date count"
+          - name: m3
+            description: "Previous week case count"
+          - name: m4
+            description: "Previous year cumulative count"
+          - name: sort_order
+            description: "Internal CDC administrative key"
+          - name: geocode_coordinates
+            description: "Lat/long coordinates for state-level rows"
