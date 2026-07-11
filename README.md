@@ -17,7 +17,7 @@ Rather than pulling the entire dataset on every run, the pipeline tracks its own
  
 **Overview page** — high-level KPIs (total cases, states reporting, STI burden rate, unique diseases tracked, outbreak alert rate), disease category breakdown, regional disease burden, and year-over-year trend.
  
-![Dashboard overview](assets/BI%20PAGE%201.jpg)
+![Dashboard overview](assets/BI_PAGE_1.jpg)
  
 **Detail page** — disease volatility across categories, year-over-year comparison, a sortable per-100K case table by disease, and regional breakdown.
  
