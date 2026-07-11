@@ -19,6 +19,7 @@ with DAG(
     default_args=default_args,
     description='Weekly CDC NNDSS ingestion and transformation pipeline',
     start_date=datetime(2026, 1, 1),
+    schedule='@weekly',
     catchup=False,
     tags=['cdc', 'health', 'bigquery']
 ) as dag:
